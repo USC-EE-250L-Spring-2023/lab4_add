@@ -2,12 +2,8 @@
 
 import paho.mqtt.client as mqtt
 import socket
-def call_back_pong(client, userdata, message):
-   num = int(message.payload.decode()) + 1;
-   print("Ping: " + num) 
-   time.sleep(4)
-   client.publish("gtrue/pong", f"{num}")
-   print("Ponging Num!")
+import time
+
 
 def on_connect(client, userdata, flags, rc):
     # Subscribe to servers
@@ -15,22 +11,29 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("gtrue/ping")
     
     #Add the custom callbacks by indicating the topic and the name of the callback handle
-    client.message_callback_add("gtrue/ping", call_back_pong)
+    client.message_callback_add("gtrue/ping", call_back_ping)
+   
+def call_back_ping(client, userdata, message):
+    num = int(message.payload.decode()) + 1
+    print(num) 
+    time.sleep(1)
+    client.publish("gtrue/pong", num)
+    print("Ponging Num!")
+      
+def on_message(client, userdata, msg):
+    print("Default callback - topic: " + msg.topic + "   msg: " + str(msg.payload, "utf-8"))
 
 if __name__ == '__main__':
     #create a client object
     client = mqtt.Client()
-
+    #attach a default callback which we defined above for incoming mqtt messages
+    client.on_message = on_message
     #attach the on_connect() callback function defined above to the mqtt client
     client.on_connect = on_connect
-          
-    client.connect(host="172.20.10.5", port=1883, keepalive=60)
-    
-    """ask paho-mqtt to spawn a separate thread to handle
-    incoming and outgoing mqtt messages."""
-    client.loop_forever()
-    time.sleep(1)
-        
-          
 
           
+    client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
+    
+    client.loop_forever()
+   
+        
