@@ -53,13 +53,13 @@ if __name__ == '__main__':
     seconds). We added "host=", "port=", and "keepalive=" for illustrative 
     purposes. You can omit this in python. For example:
     
-    `client.connect("eclipse.usc.edu", 11000, 60)` 
+    `client.connect("172.20.10.5", 11000, 60)` 
     
     The keepalive interval indicates when to send keepalive packets to the 
     server in the event no messages have been published from or sent to this 
     client. If the connection request is successful, the callback attached to
     `client.on_connect` will be called."""    
-    client.connect(host="68.181.32.115", port=11000, keepalive=60)
+    client.connect(host="172.20.10.5", port=11000, keepalive=60)
 
     """In our prior labs, we did not use multiple threads per se. Instead, we
     wrote clients and servers all in separate *processes*. However, every 
