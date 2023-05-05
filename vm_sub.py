@@ -60,7 +60,7 @@ if __name__ == '__main__':
     client. If the connection request is successful, the callback attached to
     `client.on_connect` will be called."""    
    
-    client.connect("eclipse.usc.edu", 11000, 60)
+    client.connect("broker.hivemq.com", 1883, 60)
 
     """In our prior labs, we did not use multiple threads per se. Instead, we
     wrote clients and servers all in separate *processes*. However, every 
